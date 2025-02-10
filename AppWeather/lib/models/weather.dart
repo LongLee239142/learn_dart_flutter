@@ -102,3 +102,77 @@ class WeatherData {
 List<Weather> weatherListFromJson(List<dynamic> list) {
   return list.map((item) => Weather.fromMap(item as Map<String, dynamic>)).toList();
 }
+
+class WeatherDetail {
+  Main main;
+  Weather weather;
+  Wind wind;
+  String dt_txt;
+
+//<editor-fold desc="Data Methods">
+  WeatherDetail({
+    required this.main,
+    required this.weather,
+    required this.wind,
+    required this.dt_txt,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WeatherDetail &&
+          runtimeType == other.runtimeType &&
+          main == other.main &&
+          weather == other.weather &&
+          wind == other.wind &&
+          dt_txt == other.dt_txt);
+
+  @override
+  int get hashCode =>
+      main.hashCode ^ weather.hashCode ^ wind.hashCode ^ dt_txt.hashCode;
+
+  @override
+  String toString() {
+    return 'WeatherDetail{' +
+        ' main: $main,' +
+        ' weather: $weather,' +
+        ' wind: $wind,' +
+        ' dt_txt: $dt_txt,' +
+        '}';
+  }
+
+  WeatherDetail copyWith({
+    Main? main,
+    Weather? weather,
+    Wind? wind,
+    String? dt_txt,
+  }) {
+    return WeatherDetail(
+      main: main ?? this.main,
+      weather: weather ?? this.weather,
+      wind: wind ?? this.wind,
+      dt_txt: dt_txt ?? this.dt_txt,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'main': this.main,
+      'weather': this.weather,
+      'wind': this.wind,
+      'dt_txt': this.dt_txt,
+    };
+  }
+
+  factory WeatherDetail.fromMap(Map<String, dynamic> map) {
+    return WeatherDetail(
+      main: Main.fromMap(map['main'] as Map<String, dynamic>),
+      weather: Weather.fromMap((map['weather'] as List).first as Map<String, dynamic>),
+      wind: Wind.fromMap(map['wind'] as Map<String, dynamic>),
+      dt_txt: map['dt_txt'] as String,
+    );
+  }
+
+
+//</editor-fold>
+}

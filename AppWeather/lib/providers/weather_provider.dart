@@ -5,7 +5,11 @@ import 'package:flutter/cupertino.dart';
 class WeatherProvider extends ChangeNotifier{
   Future<WeatherData> getWeatherCurrent() async{
    WeatherData result = await ApiRepository.callApiGetWeather();
-    print(result);
     return result;
   }
+  Future<List<WeatherDetail>> getWeatherDetail() async{
+    List<WeatherDetail> result = await ApiRepository.callApiGetWeatherDetail();
+    return result;
+  }
+
 }

@@ -17,4 +17,18 @@ class ApiRepository {
      rethrow;
     }
   }
+  static Future<List<WeatherDetail>> callApiGetWeatherDetail() async {
+    try {
+      final dio = Dio();
+      // final res = await dio.get(
+      //     "https://api.openweathermap.org/data/2.5/forecast?lat=21,02838&lon=105,84616&appid=f33e152fe62a30f1f848f9d8b1b9e948");
+      final res = await dio.get(
+          "https://api.openweathermap.org/data/2.5/forecast?lat=${MyLocation.x_}&lon=${MyLocation.y_}&units=metric&appid=${Mykey.api_token}");
+      List data = res.data['list'];
+      List<WeatherDetail> result = List<WeatherDetail>.from(data.map((e) => WeatherDetail.fromMap(e)).toList());
+      return result;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
