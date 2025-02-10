@@ -109,7 +109,6 @@ class WeatherDetail {
   Wind wind;
   String dt_txt;
 
-//<editor-fold desc="Data Methods">
   WeatherDetail({
     required this.main,
     required this.weather,
@@ -120,16 +119,16 @@ class WeatherDetail {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is WeatherDetail &&
-          runtimeType == other.runtimeType &&
-          main == other.main &&
-          weather == other.weather &&
-          wind == other.wind &&
-          dt_txt == other.dt_txt);
+          (other is WeatherDetail &&
+              runtimeType == other.runtimeType &&
+              main == other.main &&
+              weather == other.weather &&
+              wind == other.wind &&
+              dt_txt == other.dt_txt);
 
   @override
   int get hashCode =>
-      main.hashCode ^ weather.hashCode ^ wind.hashCode ^ dt_txt.hashCode;
+        main.hashCode ^ weather.hashCode ^ wind.hashCode ^ dt_txt.hashCode;
 
   @override
   String toString() {
@@ -142,12 +141,14 @@ class WeatherDetail {
   }
 
   WeatherDetail copyWith({
+
     Main? main,
     Weather? weather,
     Wind? wind,
     String? dt_txt,
   }) {
     return WeatherDetail(
+
       main: main ?? this.main,
       weather: weather ?? this.weather,
       wind: wind ?? this.wind,
@@ -166,13 +167,21 @@ class WeatherDetail {
 
   factory WeatherDetail.fromMap(Map<String, dynamic> map) {
     return WeatherDetail(
-      main: Main.fromMap(map['main'] as Map<String, dynamic>),
-      weather: Weather.fromMap((map['weather'] as List).first as Map<String, dynamic>),
-      wind: Wind.fromMap(map['wind'] as Map<String, dynamic>),
-      dt_txt: map['dt_txt'] as String,
+      main: map['main'] != null
+          ? Main.fromMap(map['main'] as Map<String, dynamic>)
+          : throw Exception("Thiếu dữ liệu 'main'"),
+      weather: (map['weather'] != null && (map['weather'] as List).isNotEmpty)
+          ? Weather.fromMap((map['weather'] as List).first as Map<String, dynamic>)
+          : throw Exception("Thiếu dữ liệu 'weather'"),
+      wind: map['wind'] != null
+          ? Wind.fromMap(map['wind'] as Map<String, dynamic>)
+          : throw Exception("Thiếu dữ liệu 'wind'"),
+      dt_txt: map['dt_txt'] ?? 'Unknown',
     );
   }
 
 
-//</editor-fold>
 }
+
+
+//</editor-fold>

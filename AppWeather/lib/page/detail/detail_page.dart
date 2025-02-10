@@ -59,7 +59,7 @@ class DetailPage extends StatelessWidget {
                     repeatForever: true,
                     animatedTexts: [
                       TypewriterAnimatedText(
-                        'Ha Noi City',
+                        '${context.read<WeatherProvider>().nameCity} City',
                         speed: const Duration(milliseconds: 100),
                       ),
                     ],
