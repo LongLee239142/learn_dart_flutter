@@ -20,6 +20,8 @@ import 'my_widgets_02_form/f7_form_ScrollView.dart';
 import 'my_widgets_02_form/f8_form_ImagePicker.dart';
 import 'my_widgets_03_listview/f1_listView.dart';
 import 'my_widgets_03_listview/f2_gridView.dart';
+import 'my_widgets_04_tabBar/f1_tabBar.dart';
+import 'my_widgets_05_navigationBar/f1_navigationBar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -72,7 +74,9 @@ class MyApp extends StatelessWidget {
       //    home: FormBasicDemo6(),
       // home: FormBasicDemo7(),
       // home: ListViewDemo(),
-      home: GridViewDemo(),
+      // home: GridViewDemo(),
+       home: NavigationBarMainDemo(), // Uncomment to test Navigation Bar
+      // home: TabBarDemo(),
     );
   }
 }
