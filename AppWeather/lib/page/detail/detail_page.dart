@@ -23,14 +23,37 @@ class DetailPage extends StatelessWidget {
         future: Provider.of<WeatherProvider>(context, listen: false).getWeatherDetail(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: Colors.white));
           }
 
           if (snapshot.hasError) {
             return Center(
-              child: Text(
-                'Lỗi tải dữ liệu: ${snapshot.error}',
-                style: const TextStyle(color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.location_off, size: 80, color: Colors.white),
+                    SizedBox(height: 20),
+                    Text(
+                      'Lỗi vị trí',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '${snapshot.error}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           }

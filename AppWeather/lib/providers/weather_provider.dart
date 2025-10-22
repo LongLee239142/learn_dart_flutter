@@ -13,11 +13,17 @@ class WeatherProvider extends ChangeNotifier{
   }
 
   Future<WeatherData> getWeatherCurrent() async{
+    if (position == null) {
+      throw Exception('Không thể lấy vị trí. Vui lòng bật GPS và cấp quyền truy cập vị trí cho ứng dụng.');
+    }
    WeatherData result = await ApiRepository.callApiGetWeather(position);
    nameCity = result.name;
     return result;
   }
   Future<List<WeatherDetail>> getWeatherDetail() async{
+    if (position == null) {
+      throw Exception('Không thể lấy vị trí. Vui lòng bật GPS và cấp quyền truy cập vị trí cho ứng dụng.');
+    }
     List<WeatherDetail> result = await ApiRepository.callApiGetWeatherDetail(position);
     return result;
   }

@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
-import 'home/home_page.dart';
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.positionCurrent});
   final Position? positionCurrent;
@@ -15,7 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => WeatherProvider()..updatePosition(positionCurrent!),
+      create: (_) {
+        WeatherProvider provider = WeatherProvider();
+        if (positionCurrent != null) {
+          provider.updatePosition(positionCurrent!);
+        }
+        return provider;
+      },
       child: MaterialApp(
         theme: ThemCustom.themeLight,
         debugShowCheckedModeBanner: false,
