@@ -22,6 +22,18 @@ import 'my_widgets_03_listview/f1_listView.dart';
 import 'my_widgets_03_listview/f2_gridView.dart';
 import 'my_widgets_04_tabBar/f1_tabBar.dart';
 import 'my_widgets_05_navigationBar/f1_navigationBar.dart';
+import 'my_widgets_06_pageview/f1_pageview.dart';
+import 'my_widgets_07_alert_bottomsheet/f1_alertdialog.dart';
+import 'my_widgets_07_alert_bottomsheet/f2_bottomsheet.dart';
+import 'my_widgets_08_progress_slider_refreshIndicator/f1_progress.dart';
+import 'my_widgets_08_progress_slider_refreshIndicator/f2_slider.dart';
+import 'my_widgets_08_progress_slider_refreshIndicator/f3_refreshIndicator.dart';
+import 'my_widgets_09_materialApp_theme/f1_theme_basic.dart';
+import 'my_widgets_09_materialApp_theme/f2_custom_theme.dart';
+import 'my_widgets_09_materialApp_theme/f3_dark_light_theme.dart';
+import 'navigator/f1_basic_navigation.dart';
+import 'navigator/f2_named_routes.dart';
+import 'navigator/f3_advanced_navigation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,7 +63,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: const MyScaffold(),
@@ -75,8 +87,20 @@ class MyApp extends StatelessWidget {
       // home: FormBasicDemo7(),
       // home: ListViewDemo(),
       // home: GridViewDemo(),
-       home: NavigationBarMainDemo(), // Uncomment to test Navigation Bar
-      // home: TabBarDemo(),
+      // home: NavigationBarMainDemo(), // Uncomment to test Navigation Bar
+      // home: PageViewMainDemo(), // Uncomment to test PageView
+      //home: TabBarDemo(),
+      // home: F1AlertDialog(),
+      // home: F2BottomSheet(),
+       //home: F1Progress(),
+       //home: F2Slider(),
+       //home: F3RefreshIndicator(),
+       //  home: F1ThemeBasic(),
+       //  home: F2CustomTheme(),
+       // home: F3DarkLightTheme(),
+        //home: F1BasicNavigation(),
+        //home: F2NamedRoutes(),
+        home: F3AdvancedNavigation(),
     );
   }
 }
