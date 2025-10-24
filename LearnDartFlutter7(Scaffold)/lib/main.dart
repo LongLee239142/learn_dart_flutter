@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'display_edge_to_edge_and_fullscreen/f1_edge_to_edge_fullscreen.dart';
 import 'my_widgets_01/MyAppBar.dart';
 import 'my_widgets_01/MyButton.dart';
 import 'my_widgets_01/MyButton_2.dart';
@@ -31,6 +32,10 @@ import 'my_widgets_08_progress_slider_refreshIndicator/f3_refreshIndicator.dart'
 import 'my_widgets_09_materialApp_theme/f1_theme_basic.dart';
 import 'my_widgets_09_materialApp_theme/f2_custom_theme.dart';
 import 'my_widgets_09_materialApp_theme/f3_dark_light_theme.dart';
+import 'my_widgets_10_popscope/f1_popscope_examples.dart';
+import 'my_widgets_10_popscope/f2_popscope_simple.dart';
+import 'navigate_a_section_of_the_screen/f1_animation_examples.dart';
+import 'navigate_a_section_of_the_screen/f2_partial_navigation.dart';
 import 'navigator/f1_basic_navigation.dart';
 import 'navigator/f2_named_routes.dart';
 import 'navigator/f3_advanced_navigation.dart';
@@ -46,6 +51,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -63,7 +69,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: const MyScaffold(),
@@ -92,15 +98,20 @@ class MyApp extends StatelessWidget {
       //home: TabBarDemo(),
       // home: F1AlertDialog(),
       // home: F2BottomSheet(),
-       //home: F1Progress(),
-       //home: F2Slider(),
-       //home: F3RefreshIndicator(),
-       //  home: F1ThemeBasic(),
-       //  home: F2CustomTheme(),
-       // home: F3DarkLightTheme(),
-        //home: F1BasicNavigation(),
-        //home: F2NamedRoutes(),
-        home: F3AdvancedNavigation(),
+      //home: F1Progress(),
+      //home: F2Slider(),
+      //home: F3RefreshIndicator(),
+      //  home: F1ThemeBasic(),
+      //  home: F2CustomTheme(),
+      // home: F3DarkLightTheme(),
+      //home: F1BasicNavigation(),
+      //home: F2NamedRoutes(),
+      //home: F3AdvancedNavigation(),
+      //home: F1AnimationExamples(),
+      // home: F2PartialNavigation(),
+      //home: F1PopScopeExamples(),
+      //home: F2PopScopeSimpleExample(),
+      home: F1EdgeToEdgeFullscreen(),
     );
   }
 }
