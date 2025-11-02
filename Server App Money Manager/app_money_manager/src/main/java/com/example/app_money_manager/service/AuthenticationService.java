@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.app_money_manager.dto.AuthResponse;
 import com.example.app_money_manager.model.Login;
-import com.example.app_money_manager.security.JwtService;
 
 @Service
 public class AuthenticationService {
@@ -39,3 +38,4 @@ public class AuthenticationService {
         return new AuthResponse(token, "Login success");
     }
 }
+
