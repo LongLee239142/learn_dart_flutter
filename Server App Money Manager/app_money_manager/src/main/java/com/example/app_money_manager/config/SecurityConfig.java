@@ -1,5 +1,6 @@
-package com.example.app_money_manager.security;
+package com.example.app_money_manager.config;
 
+import com.example.app_money_manager.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

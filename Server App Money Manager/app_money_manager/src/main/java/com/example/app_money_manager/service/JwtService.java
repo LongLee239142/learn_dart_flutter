@@ -1,4 +1,4 @@
-package com.example.app_money_manager.security;
+package com.example.app_money_manager.service;
 
 import java.util.Date;
 import java.util.HashMap;

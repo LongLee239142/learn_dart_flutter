@@ -44,21 +44,21 @@ class ApiServerImpl implements Api {
           dio.options.headers['Authorization'] = 'Bearer $token';
         }
 
-        print("✅ Đăng nhập thành công");
+        print("Đăng nhập thành công");
         return true;
       } else {
-        print("⚠️ Lỗi server: ${response.statusCode}");
+        print("Lỗi server: ${response.statusCode}");
         return false;
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        print("❌ Lỗi phía BE: ${e.response?.statusCode} ${e.response?.data}");
+        print("Lỗi phía BE: ${e.response?.statusCode} ${e.response?.data}");
       } else {
-        print("❌ Lỗi kết nối hoặc timeout: ${e.message}");
+        print("Lỗi kết nối hoặc timeout: ${e.message}");
       }
       return false;
     } catch (e) {
-      print("❌ Lỗi khác: $e");
+      print("Lỗi khác: $e");
       return false;
     }
   }
