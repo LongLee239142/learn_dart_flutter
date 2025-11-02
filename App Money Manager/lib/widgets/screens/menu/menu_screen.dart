@@ -40,6 +40,13 @@ class Page extends StatelessWidget {
                 context.read<MainCubit>().setSelected(DrawerItem.Setting);
               },
             ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text("Log out"),
+              onTap: () {
+                context.read<MainCubit>().setSelected(DrawerItem.LogOut);
+              },
+            ),
           ],
         );
       },

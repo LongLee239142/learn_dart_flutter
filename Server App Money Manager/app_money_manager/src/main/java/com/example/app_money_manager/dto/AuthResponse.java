@@ -1,30 +1,26 @@
 package com.example.app_money_manager.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class AuthResponse {
-    private String token;
+    private String refreshToken;
+    private String accessToken;
     private String message;
 
     public AuthResponse() {}
 
     public AuthResponse(String token, String message) {
-        this.token = token;
+        this.accessToken = token;
+        this.message = message;
+    }
+    
+    public AuthResponse(String accessToken, String refreshToken, String message) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
         this.message = message;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }
 

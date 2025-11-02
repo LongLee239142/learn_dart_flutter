@@ -3,6 +3,7 @@ import 'package:appmoneymanager/widgets/screens/details/detail_screen.dart';
 import 'package:appmoneymanager/widgets/screens/list_items/list_item_cubit.dart';
 import 'package:appmoneymanager/widgets/screens/list_items/list_item_screen.dart';
 import 'package:appmoneymanager/widgets/screens/login/login_screen.dart';
+import 'package:appmoneymanager/widgets/screens/logout/logout_screen.dart';
 import 'package:appmoneymanager/widgets/screens/setting/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -41,6 +42,8 @@ Route<dynamic>? mainRoute(RouteSettings settings) {
       );
     case SettingScreen.route:
       return MaterialPageRoute(builder: (context) => SettingScreen());
+    case LogoutScreen.route:
+      return MaterialPageRoute(builder: (context) => LogoutScreen());
     default:
       return MaterialPageRoute(builder: (context) => LoginScreen());
   }

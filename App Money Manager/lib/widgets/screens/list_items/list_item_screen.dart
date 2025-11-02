@@ -14,6 +14,7 @@ import '../add_edit/add_edit_screen.dart';
 import '../details/detail_screen.dart';
 import '../menu/menu_screen.dart';
 import '../setting/setting_screen.dart';
+import '../logout/logout_screen.dart';
 import 'list_item_cubit.dart';
 
 class ListItemScreen extends StatelessWidget {
@@ -82,6 +83,9 @@ class Body extends StatelessWidget {
                 : stateMain.selected == DrawerItem.Setting &&
                       state.screenSize != ScreenSize.Large
                 ? SettingScreen()
+                : stateMain.selected == DrawerItem.LogOut &&
+                      state.screenSize != ScreenSize.Large
+                ? LogoutScreen()
                 : switch (state.screenSize) {
                     ScreenSize.Small => ListItemPage(),
                     ScreenSize.Medium => ListItemEditPage(),

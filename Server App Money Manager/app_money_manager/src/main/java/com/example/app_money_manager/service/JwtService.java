@@ -22,8 +22,11 @@ public class JwtService {
     @Value("${jwt.secret:mySecretKeyForJWTTokenGenerationThatShouldBeAtLeast256BitsLongForHS512Algorithm}")
     private String secret;
 
-    @Value("${jwt.expiration:86400000}") // 24 hours default
+    @Value("${jwt.expiration:10000}") // 24 hours default (access token)
     private Long expiration;
+    
+    @Value("${jwt.refresh.expiration:604800000}") // 7 days default (refresh token)
+    private Long refreshExpiration;
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
@@ -56,15 +59,21 @@ public class JwtService {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, userDetails.getUsername(), expiration);
+    }
+    
+    public String generateRefreshToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("type", "refresh"); // Đánh dấu đây là refresh token
+        return createToken(claims, userDetails.getUsername(), refreshExpiration);
     }
 
-    private String createToken(Map<String, Object> claims, String subject) {
+    private String createToken(Map<String, Object> claims, String subject, Long expirationTime) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
@@ -72,5 +81,25 @@ public class JwtService {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+    
+    public Boolean validateRefreshToken(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            String tokenType = claims.get("type", String.class);
+            // Kiểm tra đây có phải refresh token không
+            return "refresh".equals(tokenType) && !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    public String extractTokenType(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            return claims.get("type", String.class);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

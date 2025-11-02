@@ -1,3 +1,3 @@
 enum DrawerItem{
-  Home, Setting
+  Home, Setting, LogOut
 }

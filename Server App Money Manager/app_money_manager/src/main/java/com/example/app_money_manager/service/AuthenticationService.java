@@ -31,11 +31,29 @@ public class AuthenticationService {
             )
         );
 
-        // Load user và generate JWT token
+        // Load user và generate JWT tokens
         UserDetails userDetails = userDetailsService.loadUserByUsername(login.getUsername());
-        String token = jwtService.generateToken(userDetails);
+        String accessToken = jwtService.generateToken(userDetails);
+        String refreshToken = jwtService.generateRefreshToken(userDetails);
 
-        return new AuthResponse(token, "Login success");
+        return new AuthResponse(accessToken, refreshToken, "Login success");
+    }
+    
+    public AuthResponse refreshToken(String refreshToken) {
+        // Validate refresh token
+        if (!jwtService.validateRefreshToken(refreshToken)) {
+            throw new RuntimeException("Invalid refresh token");
+        }
+        
+        // Extract username from refresh token
+        String username = jwtService.extractUsername(refreshToken);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        
+        // Generate new access token và refresh token
+        String newAccessToken = jwtService.generateToken(userDetails);
+        String newRefreshToken = jwtService.generateRefreshToken(userDetails);
+        
+        return new AuthResponse(newAccessToken, newRefreshToken, "Token refreshed successfully");
     }
 }
 

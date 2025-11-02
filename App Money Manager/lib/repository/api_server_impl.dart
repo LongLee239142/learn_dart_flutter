@@ -3,12 +3,14 @@ import 'package:dio/dio.dart';
 import '../models/login.dart';
 import 'api.dart';
 import 'log.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ApiServerImpl implements Api {
   String baseUrl = "http://localhost:8080";
   late Dio dio;
   Log log;
+
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   ApiServerImpl(this.log) {
     dio = Dio(BaseOptions(
@@ -17,31 +19,49 @@ class ApiServerImpl implements Api {
         'Content-Type': 'application/json',
       },
     ));
+
+    //  Thêm interceptor để tự refresh token khi 401
+    dio.interceptors.add(InterceptorsWrapper(
+      onError: (DioException e, ErrorInterceptorHandler handler) async {
+        if (e.response?.statusCode == 401) {
+          final refreshed = await _refreshToken();
+          if (refreshed) {
+            // Gửi lại request ban đầu với token mới
+            final token = await secureStorage.read(key: 'accessToken');
+            e.requestOptions.headers['Authorization'] = 'Bearer $token';
+
+            final retryResponse = await dio.fetch(e.requestOptions);
+            return handler.resolve(retryResponse);
+          }
+        }
+        return handler.next(e);
+      },
+    ));
   }
 
+  // ✅ Gắn token
   Future<void> _attachToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('accessToken');
-    if (token != null && token.isNotEmpty) {
-      dio.options.headers['Authorization'] = 'Bearer $token';
+    final accessToken = await secureStorage.read(key: 'accessToken');
+    if (accessToken != null && accessToken.isNotEmpty) {
+      dio.options.headers['Authorization'] = 'Bearer $accessToken';
     }
   }
 
+  // ✅ Login — lưu cả access và refresh token
   @override
   Future<bool> checkLogin(Login login) async {
     try {
-      Response response = await dio.post(
-        "/login",
-        data: login.toMap(),
-      );
+      final response = await dio.post("/login", data: login.toMap());
 
       if (response.statusCode == 200) {
-        final token = response.data["token"];
-        if (token != null) {
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('accessToken', token);
+        final accessToken = response.data["accessToken"];
+        final refreshToken = response.data["refreshToken"];
 
-          dio.options.headers['Authorization'] = 'Bearer $token';
+        if (accessToken != null && refreshToken != null) {
+          await secureStorage.write(key: 'accessToken', value: accessToken);
+          await secureStorage.write(key: 'refreshToken', value: refreshToken);
+
+          dio.options.headers['Authorization'] = 'Bearer $accessToken';
         }
 
         print("Đăng nhập thành công");
@@ -63,6 +83,37 @@ class ApiServerImpl implements Api {
     }
   }
 
+  // Refresh token khi access token hết hạn
+  Future<bool> _refreshToken() async {
+    try {
+      final refreshToken = await secureStorage.read(key: 'refreshToken');
+      if (refreshToken == null) return false;
+
+      final response = await dio.post("/refresh", data: {
+        "refreshToken": refreshToken,
+      });
+
+      if (response.statusCode == 200) {
+        final newAccessToken = response.data["accessToken"];
+        final newRefreshToken = response.data["refreshToken"];
+
+        await secureStorage.write(key: 'accessToken', value: newAccessToken);
+        await secureStorage.write(key: 'refreshToken', value: newRefreshToken);
+
+        dio.options.headers['Authorization'] = 'Bearer $newAccessToken';
+        print("Token đã được refresh thành công");
+        return true;
+      } else {
+        print("Không thể refresh token: ${response.statusCode}");
+        return false;
+      }
+    } catch (e) {
+      print("Lỗi khi refresh token: $e");
+      return false;
+    }
+  }
+
+  // ✅ Các API khác
   @override
   Future<void> addTransaction(Transaction transaction) async {
     await _attachToken();

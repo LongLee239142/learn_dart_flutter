@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.app_money_manager.dto.AuthResponse;
+import com.example.app_money_manager.dto.RefreshTokenRequest;
 import com.example.app_money_manager.model.Login;
 import com.example.app_money_manager.model.Transaction;
 import com.example.app_money_manager.service.AuthenticationService;
@@ -41,6 +42,12 @@ public class ApisController {
         AuthResponse response = authenticationService.authenticate(login);
         data.sort((o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime()));
         return response;
+    }
+
+    @PostMapping("/refresh")
+    public AuthResponse refreshToken(@RequestBody RefreshTokenRequest request) {
+        // Refresh access token bằng refresh token
+        return authenticationService.refreshToken(request.getRefreshToken());
     }
 
     @GetMapping("/get_months")
